@@ -1,5 +1,4 @@
 
-
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
@@ -48,14 +47,19 @@ class XOPiece extends Group {
 		// call the super class method
 		super.resize(width, height);
 		// update depending on the type
-		if(type == 1) {
-		// resize the lines
-		l1.setEndX(width); l1.setEndY(height);
-		l2.setStartX(width); l2.setEndY(height);
+		if (type == 1) {
+			// resize the lines
+			l1.setEndX(width - 10);
+			l1.setEndY(height - 10);
+			l2.setStartX(width - 10);
+			l2.setEndY(height - 10);
 		} else {
-		// recenter the ellipse// and update the radii
-		e.setCenterX(width / 2); e.setCenterY(height / 2);
-		e.setRadiusX(width / 2); e.setRadiusY(height / 2);
+			// recenter the ellipse 	
+			e.setCenterX(width / 2);
+			e.setCenterY(height / 2);
+			// and update the radii
+			e.setRadiusX(width / 2);
+			e.setRadiusY(height / 2);
 		}
 	}
 

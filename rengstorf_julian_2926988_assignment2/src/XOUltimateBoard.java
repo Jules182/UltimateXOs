@@ -5,27 +5,17 @@ import javafx.scene.layout.Pane;
 
 // class definition for drawing a game board
 class XOUltimateBoard extends Pane {
+	
 	// constructor for the class
 	public XOUltimateBoard() {
+		game = new GameLogic();
 		// initialise the boards
-		boardWinners = new int[3][3];
 		renders = new XOBoard[3][3];
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++) {
-				boardWinners[i][j] = EMPTY; // initialize the winners array
-				renders[i][j] = new XOBoard(XOUltimateBoard.this); // render the
-																	// XO Boards
+				renders[i][j] = new XOBoard(game); // render the XO Boards
 				getChildren().add(renders[i][j]);
 			}
-		current_player = XPIECE;
-	}
-
-	public int getCurrent_player() {
-		return current_player;
-	}
-
-	public void setCurrent_player(int current_player) {
-		this.current_player = current_player;
 	}
 
 	// we have to override resizing behaviour to make our view appear properly
@@ -50,9 +40,10 @@ class XOUltimateBoard extends Pane {
 	public void resetGame() {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				boardWinners[i][j] = EMPTY;
+				game.resetActive();
+				game.resetWinners();
 				this.getChildren().remove(renders[i][j]);
-				renders[i][j] = new XOBoard(XOUltimateBoard.this);
+				renders[i][j] = new XOBoard(game);
 				getChildren().add(renders[i][j]);
 			}
 		}
@@ -63,32 +54,18 @@ class XOUltimateBoard extends Pane {
 		// translate the x, y coordinates into cell indexes
 		int indexx = (int) (x / cell_width);
 		int indexy = (int) (y / cell_height);
-		//save current player, cause it will be switched in placePiece
-		int possibleWinner = getCurrent_player();
+		// save current player, cause it will be switched in placePiece
+		int possibleWinner = game.getCurrent_player();
 		// translate height and width values and pass to
 		// place piece in the correct XOBoard in the right place
-		if (boardWinners[indexx][indexy] == EMPTY)
-		renders[indexx][indexy].placePiece(x, y, indexx, indexy);
-		if (GameLogic.getInstance().detectOverallWinner(boardWinners, indexx, indexy, possibleWinner))
+		if (game.checkBoard(indexx, indexy)) // check if board is empty and active
+			renders[indexx][indexy].placePiece(x, y, indexx, indexy);
+		if (game.detectOverallWinner(indexx, indexy, possibleWinner))
 			resetGame();
 	}
 
 	// private fields of the class
-
-	private int[][] boardWinners; // array that stores the winner of the game
+	private GameLogic game;
 	private XOBoard[][] renders; // array that holds all the render pieces
 	private double cell_width, cell_height; // width and height of a cell
-	private int current_player; // who is the current player
-	// constants for the class
-	private final int EMPTY = 0;
-	private final int XPIECE = 1;
-	private final int OPIECE = 2;
-	
-	public int[][] getBoardWinners() {
-		return boardWinners;
-	}
-
-	public void updateBoardWinners(int x, int y) {
-		this.boardWinners[x][y] = getCurrent_player();
-	}
 }
