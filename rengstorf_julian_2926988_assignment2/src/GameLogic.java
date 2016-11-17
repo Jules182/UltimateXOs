@@ -25,28 +25,35 @@ public class GameLogic {
 	}
 
 	// detects winner of a tile and updates
-	public boolean detectWinner(int[][] board, int x, int y, int currentPlayer) {
-		if (examineBoard(board, x, y, currentPlayer)) {
-			displayWinner(currentPlayer, "Board");
+	public boolean detectWinner(int[][] board, int x, int y) {
+		if (examineBoard(board, x, y, current_player)) {
+			displayWinner(current_player, "Board");
 			return true;
 		} else
 			return false;
 	}
 
-	public boolean detectOverallWinner(int x, int y, int currentPlayer) {
-		if (examineBoard(winners, x, y, currentPlayer)) {
-			displayWinner(currentPlayer, "Game");
+	public boolean detectOverallWinner(int x, int y, int possibleWinner) {
+		if (examineBoard(winners, x, y, possibleWinner)) {
+			displayWinner(possibleWinner, "Game");
 			return true;
 		} else
 			return false;
 	}
-
+	
+/** Examine a board to find out if player has won
+ * @param board to be examined (XOUltimateBoard/XOBoard)
+ * @param x coordinate of field that was set
+ * @param y coordinate of field that was set
+ * @param player who might win
+ * @return true if player has won the board
+ */
 	// source: http://stackoverflow.com/questions/1056316/algorithm-for-determining-tic-tac-toe-game-over
-	public boolean examineBoard(int[][] board, int x, int y, int currentPlayer) {
+	public boolean examineBoard(int[][] board, int x, int y, int player) {
 
 		// check col
 		for (int i = 0; i < 3; i++) {
-			if (board[x][i] != currentPlayer)
+			if (board[x][i] != player)
 				break;
 			if (i == 2) {
 				return true;
@@ -55,7 +62,7 @@ public class GameLogic {
 
 		// check row
 		for (int i = 0; i < 3; i++) {
-			if (board[i][y] != currentPlayer)
+			if (board[i][y] != player)
 				break;
 			if (i == 2) {
 				return true;
@@ -66,7 +73,7 @@ public class GameLogic {
 		if (x == y) {
 			// we're on a diagonal
 			for (int i = 0; i < 3; i++) {
-				if (board[i][i] != currentPlayer)
+				if (board[i][i] != player)
 					break;
 				if (i == 2) {
 					return true;
@@ -77,7 +84,7 @@ public class GameLogic {
 		// check anti diag (thanks rampion)
 		if (x + y == 2) {
 			for (int i = 0; i < 3; i++) {
-				if (board[i][2 - i] != currentPlayer)
+				if (board[i][2 - i] != player)
 					break;
 				if (i == 2) {
 					return true;
@@ -144,8 +151,8 @@ public class GameLogic {
 		
 	}
 
-	public void updateBoardWinners(int x, int y, int player) {
-		this.winners[x][y] = player;
+	public void updateBoardWinners(int x, int y) {
+		this.winners[x][y] = current_player;
 	}
 
 	public void resetActive() {

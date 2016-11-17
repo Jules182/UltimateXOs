@@ -117,33 +117,35 @@ class XOBoard extends Pane {
 	}
 
 	// public method that tries to place a piece
-	public void placePiece(final double x, final double y, final int tileX, final int tileY) { //, final double localTileWidth, final double localTileHeight) {
+	public void placePiece(final double x, final double y, final int boardX, final int boardY) {
 		// translate the x, y coordinates into cell indexes of the current XOBoard
-		int indexx = (int) ((x - (tileX * 3.0 * cell_width)) / cell_width);
-		int indexy = (int) ((y - (tileY * 3.0 * cell_height)) / cell_height);
+		int indexx = (int) ((x - (boardX * 3.0 * cell_width)) / cell_width);
+		int indexy = (int) ((y - (boardY * 3.0 * cell_height)) / cell_height);
 		// if the position is empty then place a piece and swap the players
-		if (board[indexx][indexy] == EMPTY && game.getCurrent_player() == XPIECE) {
+		if ((board[indexx][indexy] == EMPTY) && (game.getCurrent_player() == XPIECE)) {
 			board[indexx][indexy] = XPIECE;
 			renders[indexx][indexy] = new XOPiece(XPIECE);
 			renders[indexx][indexy].resize(cell_width, cell_height);
 			renders[indexx][indexy].relocate(indexx * cell_width, indexy * cell_height);
 			getChildren().add(renders[indexx][indexy]);
 			
-			if (game.detectWinner(board, indexx, indexy, game.getCurrent_player()))
-				game.updateBoardWinners(tileX,tileY, game.getCurrent_player());
+			if (game.detectWinner(board, indexx, indexy))
+				game.updateBoardWinners(boardX,boardY);
+			
 			game.setCurrent_player(OPIECE);
 			
 			game.setActive(indexx, indexy);
 			
-		} else if (board[indexx][indexy] == EMPTY && game.getCurrent_player() == OPIECE) {
+		} else if ((board[indexx][indexy] == EMPTY) && (game.getCurrent_player() == OPIECE)) {
 			board[indexx][indexy] = OPIECE;
 			renders[indexx][indexy] = new XOPiece(OPIECE);
 			renders[indexx][indexy].resize(cell_width, cell_height);
 			renders[indexx][indexy].relocate(indexx * cell_width, indexy * cell_height);
 			getChildren().add(renders[indexx][indexy]);
 			
-			if (game.detectWinner(board, indexx, indexy, game.getCurrent_player()))
-				game.updateBoardWinners(tileX,tileY, game.getCurrent_player());
+			if (game.detectWinner(board, indexx, indexy))
+				game.updateBoardWinners(boardX,boardY);
+			
 			game.setCurrent_player(XPIECE);
 			
 			game.setActive(indexx, indexy);
