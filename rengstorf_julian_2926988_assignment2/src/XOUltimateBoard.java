@@ -10,11 +10,11 @@ class XOUltimateBoard extends Pane {
 	public XOUltimateBoard() {
 		game = new GameLogic();
 		// initialise the boards
-		renders = new XOBoard[3][3];
+		boards = new XOBoard[3][3];
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++) {
-				renders[i][j] = new XOBoard(game); // render the XO Boards
-				getChildren().add(renders[i][j]);
+				boards[i][j] = new XOBoard(game); // render the XO Boards
+				getChildren().add(boards[i][j]);
 			}
 	}
 
@@ -30,8 +30,8 @@ class XOUltimateBoard extends Pane {
 		// we need to reset the sizes and positions of all XOPieces that were placed
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				renders[i][j].relocate(i * cell_width, j * cell_height);
-				renders[i][j].resize(cell_width, cell_height);
+				boards[i][j].relocate(i * cell_width, j * cell_height);
+				boards[i][j].resize(cell_width, cell_height);
 			}
 		}
 	}
@@ -42,9 +42,9 @@ class XOUltimateBoard extends Pane {
 			for (int j = 0; j < 3; j++) {
 				game.resetActive();
 				game.resetWinners();
-				this.getChildren().remove(renders[i][j]);
-				renders[i][j] = new XOBoard(game);
-				getChildren().add(renders[i][j]);
+				this.getChildren().remove(boards[i][j]);
+				boards[i][j] = new XOBoard(game);
+				getChildren().add(boards[i][j]);
 			}
 		}
 	}
@@ -59,13 +59,13 @@ class XOUltimateBoard extends Pane {
 		// translate height and width values and pass to
 		// place piece in the correct XOBoard in the right place
 		if (game.checkBoard(indexx, indexy)) // check if board is empty and active
-			renders[indexx][indexy].placePiece(x, y, indexx, indexy);
+			boards[indexx][indexy].placePiece(x, y, indexx, indexy);
 		if (game.detectOverallWinner(indexx, indexy, possibleWinner))
 			resetGame();
 	}
 
 	// private fields of the class
 	private GameLogic game;
-	private XOBoard[][] renders; // array that holds all the render pieces
+	private XOBoard[][] boards; // array that holds all the render pieces
 	private double cell_width, cell_height; // width and height of a cell
 }

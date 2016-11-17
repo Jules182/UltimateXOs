@@ -25,21 +25,31 @@ public class GameLogic {
 	}
 
 	// detects winner of a tile and updates
-	public boolean detectWinner(int[][] board, int x, int y) {
+	public void detectWinner(int[][] board, int x, int y, int boardX, int boardY) {
 		if (examineBoard(board, x, y, current_player)) {
 			displayWinner(current_player, "Board");
-			return true;
-		} else
-			return false;
+			this.winners[boardX][boardY] = current_player;
+		}
+//		checkPainting(x,y);
 	}
 
 	public boolean detectOverallWinner(int x, int y, int possibleWinner) {
-		if (examineBoard(winners, x, y, possibleWinner)) {
+		if (examineBoard(this.winners, x, y, possibleWinner)) {
 			displayWinner(possibleWinner, "Game");
 			return true;
 		} else
 			return false;
 	}
+	
+	public void checkPainting(int x, int y) {
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+//			if (checkBoard(x, y)) renders[i][j].repaint(game.getCurrent_player());
+		}			
+	}
+	}
+	
 	
 /** Examine a board to find out if player has won
  * @param board to be examined (XOUltimateBoard/XOBoard)
@@ -150,11 +160,7 @@ public class GameLogic {
 		// return ((winners[x][y] == EMPTY) && (activeBoards[x][y] == ACTIVE))
 		
 	}
-
-	public void updateBoardWinners(int x, int y) {
-		this.winners[x][y] = current_player;
-	}
-
+	
 	public void resetActive() {
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++) {

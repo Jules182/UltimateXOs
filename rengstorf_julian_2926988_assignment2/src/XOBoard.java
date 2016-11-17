@@ -128,26 +128,20 @@ class XOBoard extends Pane {
 			renders[indexx][indexy].resize(cell_width, cell_height);
 			renders[indexx][indexy].relocate(indexx * cell_width, indexy * cell_height);
 			getChildren().add(renders[indexx][indexy]);
-			
-			if (game.detectWinner(board, indexx, indexy))
-				game.updateBoardWinners(boardX,boardY);
-			
+
+			game.detectWinner(board, indexx, indexy, boardX, boardY);
 			game.setCurrent_player(OPIECE);
-			
 			game.setActive(indexx, indexy);
-			
+
 		} else if ((board[indexx][indexy] == EMPTY) && (game.getCurrent_player() == OPIECE)) {
 			board[indexx][indexy] = OPIECE;
 			renders[indexx][indexy] = new XOPiece(OPIECE);
 			renders[indexx][indexy].resize(cell_width, cell_height);
 			renders[indexx][indexy].relocate(indexx * cell_width, indexy * cell_height);
 			getChildren().add(renders[indexx][indexy]);
-			
-			if (game.detectWinner(board, indexx, indexy))
-				game.updateBoardWinners(boardX,boardY);
-			
+
+			game.detectWinner(board, indexx, indexy, boardX, boardY);
 			game.setCurrent_player(XPIECE);
-			
 			game.setActive(indexx, indexy);
 		}
 	}
@@ -167,11 +161,17 @@ class XOBoard extends Pane {
 
 	private GameLogic game;
 
-	public int[][] getBoard() {
-		return board;
+	public void repaint(int player) {
+		switch (player) {
+		case XPIECE:
+			back.setFill(Color.RED);
+			break;
+		case OPIECE:
+			back.setFill(Color.GREEN);
+		default:
+			back.setFill(Color.BLACK);
+			break;
+		}
 	}
 
-	public void setBoard(int[][] board) {
-		this.board = board;
-	}
 }

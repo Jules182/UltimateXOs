@@ -49,10 +49,10 @@ class XOPiece extends Group {
 		// update depending on the type
 		if (type == 1) {
 			// resize the lines
-			l1.setEndX(width - 10);
-			l1.setEndY(height - 10);
-			l2.setStartX(width - 10);
-			l2.setEndY(height - 10);
+			l1.setEndX(width);
+			l1.setEndY(height);
+			l2.setStartX(width);
+			l2.setEndY(height);
 		} else {
 			// recenter the ellipse 	
 			e.setCenterX(width / 2);
