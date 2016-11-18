@@ -3,7 +3,7 @@ Ultimate Tic Tac Toe game in two-player-mode
 developed with JavaFX
 
 ### How to run?
-run the [Runnable JAR file](rengstorf_julian_2926988_assignment2/UltimateXOs.jar)
+run the [Runnable JAR file](../../raw/master/rengstorf_julian_2926988_assignment2/UltimateXOs.jar)
 or import as eclipse project
 
 ### I don't understand the rules.
