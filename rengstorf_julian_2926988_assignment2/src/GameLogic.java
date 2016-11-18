@@ -3,16 +3,6 @@ import javafx.scene.control.Alert.AlertType;
 
 public class GameLogic {
 
-	private int[][] winners; // winners of the XOBoards
-	private int[][] activeBoards; // active state of the XOBoards
-	private int current_player;
-
-	/**
-	 * immer wenn 1 piece gerendert
-	 * 
-	 * UltimateBoard --> GameLogic --> XOBoard
-	 * 
-	 */
 	public GameLogic() {
 		winners = new int[3][3];
 		activeBoards = new int[3][3];
@@ -21,43 +11,90 @@ public class GameLogic {
 				winners[i][j] = EMPTY;
 				activeBoards[i][j] = ACTIVE;
 			}
-		 current_player = XPIECE;
+		current_player = XPIECE;
 	}
 
-	// detects winner of a tile and updates
-	public void detectWinner(int[][] board, int x, int y, int boardX, int boardY) {
-		if (examineBoard(board, x, y, current_player)) {
+	/** detects winner of a board and updates winners array */
+	public void detectWinner(int[][] board, int pieceX, int pieceY, int boardX, int boardY) {
+		if (examineBoard(board, pieceX, pieceY, current_player)) {
 			displayWinner(current_player, "Board");
 			this.winners[boardX][boardY] = current_player;
 		}
-//		checkPainting(x,y);
 	}
 
-	public boolean detectOverallWinner(int x, int y, int possibleWinner) {
-		if (examineBoard(this.winners, x, y, possibleWinner)) {
+	/** detects winner of the whole game by examining the winners array
+	 * 
+	 * @param boardX coordinate of the board that was recently set into
+	 * @param boardY coordinate of the board that was recently set into
+	 * @param possibleWinner not the current player but the other one
+	 * @return true --> call resetBoard() 
+	 */
+	public boolean detectOverallWinner(int boardX, int boardY, int possibleWinner) {
+		if (examineBoard(this.winners, boardX, boardY, possibleWinner)) {
 			displayWinner(possibleWinner, "Game");
 			return true;
 		} else
 			return false;
 	}
-	
-	public void checkPainting(int x, int y) {
 
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-//			if (checkBoard(x, y)) renders[i][j].repaint(game.getCurrent_player());
-		}			
+	public boolean checkBoard(int boardX, int boardY) {
+		return (activeBoards[boardX][boardY] == ACTIVE);
 	}
+
+	public void setActiveStates(int boardX, int boardY) {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++) {
+				activeBoards[i][j] = INACTIVE;
+			}
+
+		if (winners[boardX][boardY] == EMPTY) {
+			activeBoards[boardX][boardY] = ACTIVE;
+		} else {
+			for (int i = 0; i < 3; i++)
+				for (int j = 0; j < 3; j++) {
+					if (winners[i][j] != EMPTY)
+						activeBoards[i][j] = INACTIVE;
+					else
+						activeBoards[i][j] = ACTIVE;
+				}
+		}
 	}
-	
-	
-/** Examine a board to find out if player has won
- * @param board to be examined (XOUltimateBoard/XOBoard)
- * @param x coordinate of field that was set
- * @param y coordinate of field that was set
- * @param player who might win
- * @return true if player has won the board
- */
+
+	public void resetWinners() {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++) {
+				winners[i][j] = EMPTY;
+			}
+	}
+
+	public void resetActive() {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++) {
+				activeBoards[i][j] = ACTIVE;
+			}
+	}
+
+	public int getCurrent_player() {
+		return current_player;
+	}
+
+	public void setCurrent_player(int current_player) {
+		this.current_player = current_player;
+	}
+
+	/**
+	 * Examine a board to find out if player has won
+	 * 
+	 * @param board
+	 *            to be examined (XOUltimateBoard/XOBoard)
+	 * @param x
+	 *            coordinate of field that was set
+	 * @param y
+	 *            coordinate of field that was set
+	 * @param player
+	 *            who might win
+	 * @return true if player has won the board
+	 */
 	// source: http://stackoverflow.com/questions/1056316/algorithm-for-determining-tic-tac-toe-game-over
 	public boolean examineBoard(int[][] board, int x, int y, int player) {
 
@@ -129,51 +166,8 @@ public class GameLogic {
 	private final int XPIECE = 1;
 	private final int OPIECE = 2;
 
-	public void setActive(int boardx, int boardy) {
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 3; j++) {
-				activeBoards[i][j] = INACTIVE;
-			}
-		activeBoards[boardx][boardy] = ACTIVE;
-	}
-
-	private void setAllActiveExcept(int boardx, int boardy) {
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 3; j++) {
-				activeBoards[i][j] = ACTIVE;
-			}
-		activeBoards[boardx][boardy] = INACTIVE;
-	}
-
-	public void resetWinners() {
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 3; j++) {
-				winners[i][j] = EMPTY;
-			}
-	}
-
-	public boolean checkBoard(int x, int y) {
-		if (winners[x][y] != EMPTY) setAllActiveExcept(x, y);
-		if (activeBoards[x][y] == ACTIVE) return true; 
-		else return false;
-		
-		// return ((winners[x][y] == EMPTY) && (activeBoards[x][y] == ACTIVE))
-		
-	}
-	
-	public void resetActive() {
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 3; j++) {
-				activeBoards[i][j] = ACTIVE;
-			}
-	}
-
-	public int getCurrent_player() {
-		return current_player;
-	}
-
-	public void setCurrent_player(int current_player) {
-		this.current_player = current_player;
-	}
-
+	// fields
+	private int[][] winners; // winners of the XOBoards
+	private int[][] activeBoards; // active state of the XOBoards
+	private int current_player;
 }

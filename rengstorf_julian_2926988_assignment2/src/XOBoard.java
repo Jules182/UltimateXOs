@@ -103,17 +103,7 @@ class XOBoard extends Pane {
 				}
 			}
 		}
-	}
-
-	// public method for resetting the game
-	public void resetGame() {
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				board[i][j] = 0;
-				getChildren().remove(renders[i][j]);
-				renders[i][j] = null;
-			}
-		}
+		
 	}
 
 	// public method that tries to place a piece
@@ -131,7 +121,7 @@ class XOBoard extends Pane {
 
 			game.detectWinner(board, indexx, indexy, boardX, boardY);
 			game.setCurrent_player(OPIECE);
-			game.setActive(indexx, indexy);
+			game.setActiveStates(indexx, indexy);
 
 		} else if ((board[indexx][indexy] == EMPTY) && (game.getCurrent_player() == OPIECE)) {
 			board[indexx][indexy] = OPIECE;
@@ -142,7 +132,7 @@ class XOBoard extends Pane {
 
 			game.detectWinner(board, indexx, indexy, boardX, boardY);
 			game.setCurrent_player(XPIECE);
-			game.setActive(indexx, indexy);
+			game.setActiveStates(indexx, indexy);
 		}
 	}
 
@@ -161,15 +151,28 @@ class XOBoard extends Pane {
 
 	private GameLogic game;
 
+	/** This board is active now and displays which player can set a piece into it
+	 * @param player that can place a piece in this board
+	 */
 	public void repaint(int player) {
 		switch (player) {
 		case XPIECE:
-			back.setFill(Color.RED);
+			h1.setStroke(Color.RED);
+			h2.setStroke(Color.RED);
+			v1.setStroke(Color.RED);
+			v2.setStroke(Color.RED);
 			break;
 		case OPIECE:
-			back.setFill(Color.GREEN);
+			h1.setStroke(Color.GREEN);
+			h2.setStroke(Color.GREEN);
+			v1.setStroke(Color.GREEN);
+			v2.setStroke(Color.GREEN);
+			break;
 		default:
-			back.setFill(Color.BLACK);
+			h1.setStroke(Color.WHITE);
+			h2.setStroke(Color.WHITE);
+			v1.setStroke(Color.WHITE);
+			v2.setStroke(Color.WHITE);
 			break;
 		}
 	}

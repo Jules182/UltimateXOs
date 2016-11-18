@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 
 // class definition for drawing a game board
 class XOUltimateBoard extends Pane {
-	
+
 	// constructor for the class
 	public XOUltimateBoard() {
 		game = new GameLogic();
@@ -42,6 +42,8 @@ class XOUltimateBoard extends Pane {
 			for (int j = 0; j < 3; j++) {
 				game.resetActive();
 				game.resetWinners();
+				game.setCurrent_player(-1);
+				repaintFields();
 				this.getChildren().remove(boards[i][j]);
 				boards[i][j] = new XOBoard(game);
 				getChildren().add(boards[i][j]);
@@ -58,10 +60,23 @@ class XOUltimateBoard extends Pane {
 		int possibleWinner = game.getCurrent_player();
 		// translate height and width values and pass to
 		// place piece in the correct XOBoard in the right place
-		if (game.checkBoard(indexx, indexy)) // check if board is empty and active
+		if (game.checkBoard(indexx, indexy)) // check if board is active
 			boards[indexx][indexy].placePiece(x, y, indexx, indexy);
+		repaintFields();
 		if (game.detectOverallWinner(indexx, indexy, possibleWinner))
 			resetGame();
+	}
+	/**	display active field in green/red depending on current player */
+	public void repaintFields() {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (game.checkBoard(i, j)) {
+					boards[i][j].repaint(game.getCurrent_player());
+				} else {
+					boards[i][j].repaint(-1);
+				}
+			}
+		}
 	}
 
 	// private fields of the class
