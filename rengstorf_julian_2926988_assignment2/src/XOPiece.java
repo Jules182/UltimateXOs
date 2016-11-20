@@ -52,12 +52,12 @@ class XOPiece extends Group {
 		// update depending on the type
 		if (type == 1) {
 			// resize the lines
-			l1.setEndX(width -5);
+			l1.setEndX(width - 5);
 			l1.setEndY(height - 5);
 			l2.setStartX(width - 5);
 			l2.setEndY(height - 5);
 		} else {
-			// recenter the ellipse 	
+			// recenter the ellipse
 			e.setCenterX(width / 2);
 			e.setCenterY(height / 2);
 			// and update the radii

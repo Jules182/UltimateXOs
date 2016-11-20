@@ -13,7 +13,8 @@ class XOUltimateBoard extends Pane {
 		boards = new XOBoard[3][3];
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++) {
-				boards[i][j] = new XOBoard(game); // render the XO Boards
+				// render the XO Boards and pass the GameLogic instance to them
+				boards[i][j] = new XOBoard(game);
 				getChildren().add(boards[i][j]);
 			}
 	}
@@ -40,8 +41,7 @@ class XOUltimateBoard extends Pane {
 	public void resetGame() {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				game.resetActive();
-				game.resetWinners();
+				game.reset();
 				game.setCurrent_player(-1);
 				repaintFields();
 				this.getChildren().remove(boards[i][j]);
@@ -62,11 +62,14 @@ class XOUltimateBoard extends Pane {
 		// place piece in the correct XOBoard in the right place
 		if (game.checkBoard(indexx, indexy)) // check if board is active
 			boards[indexx][indexy].placePiece(x, y, indexx, indexy);
+		// repaint the fields to show where the next piece goes
 		repaintFields();
+		// detect if the overall game is won by the player that has set the piece
 		if (game.detectOverallWinner(indexx, indexy, possibleWinner))
 			resetGame();
 	}
-	/**	display active field in green/red depending on current player */
+
+	/** display active field in green/red depending on current player */
 	public void repaintFields() {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -81,6 +84,6 @@ class XOUltimateBoard extends Pane {
 
 	// private fields of the class
 	private GameLogic game;
-	private XOBoard[][] boards; // array that holds all the render pieces
+	private XOBoard[][] boards; // array that holds all the XOBoards
 	private double cell_width, cell_height; // width and height of a cell
 }

@@ -24,12 +24,16 @@ public class GameLogic {
 		return false;
 	}
 
-	/** detects winner of the whole game by examining the winners array
+	/**
+	 * detects winner of the whole game by examining the winners array
 	 * 
-	 * @param boardX coordinate of the board that was recently set into
-	 * @param boardY coordinate of the board that was recently set into
-	 * @param possibleWinner not the current player but the other one
-	 * @return true --> call resetBoard() 
+	 * @param boardX
+	 *            coordinate of the board that was recently set into
+	 * @param boardY
+	 *            coordinate of the board that was recently set into
+	 * @param possibleWinner
+	 *            not the current player but the other one
+	 * @return true --> call resetBoard()
 	 */
 	public boolean detectOverallWinner(int boardX, int boardY, int possibleWinner) {
 		if (examineBoard(this.winners, boardX, boardY, possibleWinner)) {
@@ -39,10 +43,12 @@ public class GameLogic {
 			return false;
 	}
 
+	/** checks the active state of a board to determine of a piece can be placed into it */
 	public boolean checkBoard(int boardX, int boardY) {
 		return (activeBoards[boardX][boardY] == ACTIVE);
 	}
 
+	/** method to toggle the ACTIVE/INACTIVE state of a board while checking if won */
 	public void setActiveStates(int boardX, int boardY) {
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++) {
@@ -62,31 +68,19 @@ public class GameLogic {
 		}
 	}
 
-	public void resetWinners() {
+	/** resets winners and activeBoards arrays */
+	public void reset() {
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++) {
 				winners[i][j] = EMPTY;
-			}
-	}
-
-	public void resetActive() {
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 3; j++) {
 				activeBoards[i][j] = ACTIVE;
 			}
 	}
 
-	public int getCurrent_player() {
-		return current_player;
-	}
-
-	public void setCurrent_player(int current_player) {
-		this.current_player = current_player;
-	}
-
 	/**
-	 * Examine a board to find out if player has won
-	 * 
+	 * Examine a board to find out if player has won; source:
+	 * http://stackoverflow.com/questions/1056316/algorithm-for-determining-tic-tac-toe-game-over
+	 *
 	 * @param board
 	 *            to be examined (XOUltimateBoard/XOBoard)
 	 * @param x
@@ -97,7 +91,6 @@ public class GameLogic {
 	 *            who might win
 	 * @return true if player has won the board
 	 */
-	// source: http://stackoverflow.com/questions/1056316/algorithm-for-determining-tic-tac-toe-game-over
 	public boolean examineBoard(int[][] board, int x, int y, int player) {
 
 		// check col
@@ -140,11 +133,10 @@ public class GameLogic {
 				}
 			}
 		}
-
 		return false;
-
 	}
 
+	/** displays an alert if a board or the game has been won */
 	public void displayWinner(int winner, String winType) {
 		String playername = "NO NAME";
 		if (winner == XPIECE)
@@ -172,4 +164,12 @@ public class GameLogic {
 	private int[][] winners; // winners of the XOBoards
 	private int[][] activeBoards; // active state of the XOBoards
 	private int current_player;
+
+	public int getCurrent_player() {
+		return current_player;
+	}
+
+	public void setCurrent_player(int current_player) {
+		this.current_player = current_player;
+	}
 }

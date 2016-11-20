@@ -103,7 +103,7 @@ class XOBoard extends Pane {
 				}
 			}
 		}
-		
+
 	}
 
 	// public method that tries to place a piece
@@ -120,9 +120,9 @@ class XOBoard extends Pane {
 			getChildren().add(renders[indexx][indexy]);
 
 			if (game.detectWinner(board, indexx, indexy, boardX, boardY))
-				back.setFill(Color.DARKRED);
-			game.setCurrent_player(OPIECE);
-			game.setActiveStates(indexx, indexy);
+				back.setFill(Color.DARKRED); // display won field
+			game.setCurrent_player(OPIECE); // update current player
+			game.setActiveStates(indexx, indexy); // activate next board
 
 		} else if ((board[indexx][indexy] == EMPTY) && (game.getCurrent_player() == OPIECE)) {
 			board[indexx][indexy] = OPIECE;
@@ -132,9 +132,9 @@ class XOBoard extends Pane {
 			getChildren().add(renders[indexx][indexy]);
 
 			if (game.detectWinner(board, indexx, indexy, boardX, boardY))
-				back.setFill(Color.DARKOLIVEGREEN);
-			game.setCurrent_player(XPIECE);
-			game.setActiveStates(indexx, indexy);
+				back.setFill(Color.DARKOLIVEGREEN); // display won field
+			game.setCurrent_player(XPIECE); // update current player
+			game.setActiveStates(indexx, indexy); // activate next board
 		}
 	}
 
@@ -153,8 +153,11 @@ class XOBoard extends Pane {
 
 	private GameLogic game;
 
-	/** This board is active now and displays which player can set a piece into it
-	 * @param player that can place a piece in this board
+	/**
+	 * This board is active now and displays which player can set a piece into it
+	 * 
+	 * @param player
+	 *            that can place a piece in this board
 	 */
 	public void repaint(int player) {
 		switch (player) {
