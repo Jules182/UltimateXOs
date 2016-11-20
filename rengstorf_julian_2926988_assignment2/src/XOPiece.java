@@ -23,7 +23,9 @@ class XOPiece extends Group {
 			l1.getTransforms().add(pos);
 			l2.getTransforms().add(pos);
 			l1.setStroke(Color.RED);
+			l1.setStrokeWidth(2);
 			l2.setStroke(Color.RED);
+			l2.setStrokeWidth(2);
 			// as l1 starts top left startx, starty will always be zero
 			// as l2 starts top right starty, endx will always be zero
 			l1.setStartX(0);
@@ -37,6 +39,7 @@ class XOPiece extends Group {
 			getChildren().addAll(e);
 			e.getTransforms().add(pos);
 			e.setStroke(Color.LIME);
+			e.setFill(Color.DARKGREEN);
 		}
 
 	}
@@ -49,10 +52,10 @@ class XOPiece extends Group {
 		// update depending on the type
 		if (type == 1) {
 			// resize the lines
-			l1.setEndX(width);
-			l1.setEndY(height);
-			l2.setStartX(width);
-			l2.setEndY(height);
+			l1.setEndX(width -5);
+			l1.setEndY(height - 5);
+			l2.setStartX(width - 5);
+			l2.setEndY(height - 5);
 		} else {
 			// recenter the ellipse 	
 			e.setCenterX(width / 2);

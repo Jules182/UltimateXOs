@@ -3,6 +3,7 @@ import javafx.scene.control.Control;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.application.Platform;
 
 //class definition for a custom control
 class CustomControl extends Control {
@@ -22,6 +23,8 @@ class CustomControl extends Control {
 			if (event.getCode() == KeyCode.SPACE) {
 				xoboard.resetGame();
 			}
+			if (event.getCode() == KeyCode.ESCAPE)
+				Platform.exit();
 		});
 
 	}

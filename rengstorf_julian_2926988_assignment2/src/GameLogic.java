@@ -15,11 +15,13 @@ public class GameLogic {
 	}
 
 	/** detects winner of a board and updates winners array */
-	public void detectWinner(int[][] board, int pieceX, int pieceY, int boardX, int boardY) {
+	public boolean detectWinner(int[][] board, int pieceX, int pieceY, int boardX, int boardY) {
 		if (examineBoard(board, pieceX, pieceY, current_player)) {
 			displayWinner(current_player, "Board");
 			this.winners[boardX][boardY] = current_player;
+			return true;
 		}
+		return false;
 	}
 
 	/** detects winner of the whole game by examining the winners array

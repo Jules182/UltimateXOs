@@ -28,6 +28,7 @@ public class UltimateXOs extends Application {
 
 	// overridden stop method
 	public void stop() {
+		System.out.println("Program successfully terminated.");
 	}
 
 	// entry point into our program to launch our JavaFX application

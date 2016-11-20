@@ -119,7 +119,8 @@ class XOBoard extends Pane {
 			renders[indexx][indexy].relocate(indexx * cell_width, indexy * cell_height);
 			getChildren().add(renders[indexx][indexy]);
 
-			game.detectWinner(board, indexx, indexy, boardX, boardY);
+			if (game.detectWinner(board, indexx, indexy, boardX, boardY))
+				back.setFill(Color.DARKRED);
 			game.setCurrent_player(OPIECE);
 			game.setActiveStates(indexx, indexy);
 
@@ -130,7 +131,8 @@ class XOBoard extends Pane {
 			renders[indexx][indexy].relocate(indexx * cell_width, indexy * cell_height);
 			getChildren().add(renders[indexx][indexy]);
 
-			game.detectWinner(board, indexx, indexy, boardX, boardY);
+			if (game.detectWinner(board, indexx, indexy, boardX, boardY))
+				back.setFill(Color.DARKOLIVEGREEN);
 			game.setCurrent_player(XPIECE);
 			game.setActiveStates(indexx, indexy);
 		}
