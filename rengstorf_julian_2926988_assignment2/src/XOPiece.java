@@ -61,8 +61,8 @@ class XOPiece extends Group {
 			e.setCenterX(width / 2);
 			e.setCenterY(height / 2);
 			// and update the radii
-			e.setRadiusX(width / 2);
-			e.setRadiusY(height / 2);
+			e.setRadiusX((width * 0.95) / 2);
+			e.setRadiusY((height * 0.95) / 2);
 		}
 	}
 
